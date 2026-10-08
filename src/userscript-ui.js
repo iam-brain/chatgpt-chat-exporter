@@ -513,7 +513,7 @@
             if (fallback) {
                 event.preventDefault();
                 event.stopImmediatePropagation();
-                if (doc.getElementById(MENU_ID)) {
+                if (doc.getElementById(MENU_ID)?.getAttribute('data-export-anchor') === SHARE_BUTTON_ID) {
                     closeShareMenu(doc);
                 } else {
                     openShareMenu(doc, fallback, actions, { includeNativeShare: false, includeCopyLink: false });

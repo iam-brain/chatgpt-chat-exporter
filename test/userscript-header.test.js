@@ -180,3 +180,16 @@ test('empty action container in an older header receives the fallback Share butt
     fallback(doc).click();
     assert.equal(fallback(doc).getAttribute('data-state'),'closed');
 });
+
+test('fallback replaces a stale native-anchored menu on its first click after navigation', async t => {
+    const {doc} = setup(t, header(native)+message);
+    await tick();
+    const real = doc.querySelector('#actions > button[aria-label="Share"]');
+    real.click();
+    assert.deepEqual(menuLabels(doc), ['Share…','Copy link','Export to Markdown','Export to PDF']);
+    real.remove();
+    await tick();
+    fallback(doc).click();
+    assert.deepEqual(menuLabels(doc), ['Export to Markdown','Export to PDF']);
+    assert.equal(fallback(doc).getAttribute('aria-expanded'), 'true');
+});
