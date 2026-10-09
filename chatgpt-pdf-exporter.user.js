@@ -5238,9 +5238,14 @@
         function findHeaderActions(doc) {
             // ChatGPT can retain an empty old titlebar during navigation. Only use
             // an action group with actual controls, never that empty duplicate.
-            const groups = doc.querySelectorAll(
-                '[data-app-shell-main-titlebar] [data-app-shell-header-obstacle] .pointer-events-auto > div, #conversation-header-actions'
-            );
+            const actionSelector = '[data-app-shell-main-titlebar] [data-app-shell-header-obstacle] .pointer-events-auto';
+            // Some temporary chats wrap Save chat in a span directly inside the
+            // action container. Prefer the inner group when present, then the
+            // container itself, rather than requiring a particular wrapper tag.
+            const groups = [
+                ...doc.querySelectorAll(`${actionSelector} > div, #conversation-header-actions`),
+                ...doc.querySelectorAll(actionSelector)
+            ];
             for (const group of groups) {
                 if (isVisible(group) && (group.id === 'conversation-header-actions' || group.querySelector('button, [role="button"]'))) return group;
             }

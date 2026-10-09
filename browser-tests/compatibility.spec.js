@@ -56,6 +56,20 @@ async function downloadedText(download) {
     return fs.readFile(await download.path(), 'utf8');
 }
 
+for (const script of ['chatgpt-markdown-exporter.user.js', 'chatgpt-pdf-exporter.user.js']) {
+    test(`${script}: temporary Save chat header receives Share without an inner div`, async ({ page }) => {
+        const errors = await mount(page, {
+            script, strict: true,
+            extra: '<header><div data-app-shell-main-titlebar><div data-app-shell-header-obstacle><div class="pointer-events-auto" id="temp-actions"><span class="contents"><button aria-label="Save chat" disabled>Save chat</button></span></div></div></div></header>'
+        });
+        const share = page.locator('#temp-actions > #chat-exporter-share-button');
+        await expect(share).toBeVisible();
+        await share.click();
+        await expect(page.locator('#chat-exporter-share-menu [role="menuitem"]')).toHaveText(['Export to Markdown', 'Export to PDF']);
+        expect(errors).toEqual([]);
+    });
+}
+
 for (const provider of ['chatgpt', 'gemini']) {
     for (const format of ['markdown', 'html', 'pdf']) {
         test(`${provider} ${format}: real download preserves rich content, images, math and repeated turns`, async ({ page }) => {
