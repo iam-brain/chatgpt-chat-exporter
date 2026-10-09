@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChatGPT Chat Exporter - PDF
 // @namespace    https://github.com/rashidazarang/chatgpt-chat-exporter
-// @version      1.2.4
+// @version      1.2.5
 // @description  Export ChatGPT conversations to Markdown or PDF from the native conversation menus
 // @author       rashidazarang
 // @homepageURL  https://github.com/rashidazarang/chatgpt-chat-exporter
@@ -32,7 +32,7 @@
     })(typeof globalThis !== 'undefined' ? globalThis : this, function buildChatExporterEngine() {
         'use strict';
 
-        const ENGINE_VERSION = '1.2.4';
+        const ENGINE_VERSION = '1.2.5';
 
         // Pixels of slack when deciding the scroll container has reached its end.
         const BOTTOM_TOLERANCE = 4;
